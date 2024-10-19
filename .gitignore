@@ -1,0 +1,6 @@
+bin
+.cache
+*.sublime*
+compile_commands.json
+*.so
+*.a
