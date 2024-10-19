@@ -1,17 +1,18 @@
-Singly Linked List (SLL) Project
+## Singly Linked List (SLL) Project
 
-Description: This project implements a singly linked list (SLL) data structure in the C programming language. This SLL allows for dynamic memory management for adding, removing, and searching elements.
+###### This project implements a singly linked list (SLL) data structure in the C programming language. This SLL allows for dynamic memory management for adding, removing, and searching elements.
 
-Features:
+### Features
 
-    Creating a new node.
-    Inserting nodes at various positions (at the end, at the front, at a specific index).
-    Removing nodes based on value or position.
-    Debugging output to print nodes.
-    Memory deallocation.
+* Creating a new node.
+* Inserting nodes at various positions (at the end, at the front, at a specific index).
+* Removing nodes based on value or position.
+* Debugging output to print nodes.
+* Memory deallocation.
 
-API Reference:
+### API Reference
 
+```c
     sll_t* sll_new(void* _new_data) - Creates a new node with the given data.
     sll_t* sll_get_last(sll_t* _root) - Returns the last node in the list.
     sll_t* sll_at(sll_t* _root, size_t _index) - Returns the node at given index
@@ -25,22 +26,23 @@ API Reference:
     sll_status_t sll_clear(sll_t* _root) - Removes all the nodes but not _root
     sll_sttaus_t sll_set(sll_t* _node, void* _new_data) - Sets the new data for the node
     sll_status_t sll_free(sll_t* _root) - Frees the memory occupied by the list.
+```
 
-Installation:
+### Installation
 
 ```bash
 git clone https://github.com/m1ad3n/sll.git
 cd sll
 make
-make install
+sudo make install
 ```
 
-Usage:
+#### Usage
 
     Include sll.h in your C file: #include <sll.h>
     Link libsll.so or libsll.a: gcc ... -lsll ...
 
-    Example usage:
+#### Example
 
 ```c
 #include <stdio.h>
@@ -74,8 +76,6 @@ int main() {
     return 0;
 }
 ```
-
-License: This project is licensed under the MIT License.
 
 Author: Mladen Stanimirović - mstanimirovic@proton.me
 
