@@ -34,8 +34,8 @@ int sll_struct_as_data_test(void) {
 	sll_insert_back(root, &b);
 	sll_insert_back(root, &c);
 
-	printf("struct pair sll print func test:\n");
-	sll_debug(root, print_pair);
+	// printf("struct pair sll print func test:\n");
+	// sll_debug(root, print_pair);
 
 	ASSERT_EQ(sll_get_size(root), 3);
 	ASSERT_EQ(memcmp(root->data, &a, sizeof(a)), 0);
@@ -73,9 +73,10 @@ int sll_remove_test(void) {
 
 	ASSERT_EQ(sll_get_size(root), 5);
 
-	sll_remove_at(&root, 3);
+	sll_remove_at(&root, 4);
+
 	ASSERT_EQ(sll_get_size(root), 4);
-	ASSERT_EQ(memcmp(sll_at(root, 3)->data, "fifth", 6), 0);
+	ASSERT_EQ(memcmp(sll_at(root, 3)->data, "fourth", 7), 0);
 
 	sll_free(root);
 	return 1;

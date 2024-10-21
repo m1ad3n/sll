@@ -25,6 +25,10 @@ extern "C" {
 #   define SLL_DEPRECATED(func, alternative) __attribute__((deprecated("function " #func " is deprecated, please use " #alternative)))
 #endif
 
+#ifndef SLL_NONNULL
+#   define SLL_NONNULL(...) __attribute__((nonnull(__VA_ARGS__)))
+#endif
+
 /**
  * @brief Structure representing a node in a singly linked list.
  *
@@ -45,7 +49,6 @@ typedef struct sll_s {
 typedef enum sll_status {
     SLL_FINE,                   /**< Operation completed successfully. 		*/
     SLL_NOT_FOUND,              /**< Specified node or data not found. 		*/
-    SLL_PASSED_NULL,            /**< Null pointer was passed as an argument. 	*/
     SLL_MALLOC_RETURNED_NULL,   /**< Memory allocation failed (returned NULL). */
     SLL_INDEX_OUT_OF_RANGE      /**< Given index is smaller than sll_get_size */
 } sll_status_t;
@@ -58,7 +61,7 @@ typedef enum sll_status {
  * @param _new_data Pointer to the data to be stored in the new node.
  * @return Pointer to the newly created node.
  */
-SLL_CALL sll_t* sll_new(void* _new_data);
+SLL_CALL sll_t* sll_new(void* _new_data) SLL_NONNULL(1);
 
 /**
  * @brief Get the last node in the list.
@@ -68,7 +71,7 @@ SLL_CALL sll_t* sll_new(void* _new_data);
  * @param _root Pointer to the root of the list.
  * @return Pointer to the last node in the list, or NULL if the list is empty.
  */
-SLL_CALL sll_t* sll_get_last(sll_t* _root);
+SLL_CALL sll_t* sll_get_last(sll_t* _root) SLL_NONNULL(1);
 
 /**
  * @brief Retrieve the node at a specified index in the list.
@@ -81,7 +84,7 @@ SLL_CALL sll_t* sll_get_last(sll_t* _root);
  * @param _index The index of the node to retrieve. The first node is at index 0.
  * @return Pointer to the node at the specified index, or NULL if the index is out of bounds.
  */
-SLL_CALL sll_t* sll_at(sll_t* _root, size_t _index);
+SLL_CALL sll_t* sll_at(sll_t* _root, size_t _index) SLL_NONNULL(1);
 
 /**
  * @brief Insert a new node at the end of the list.
@@ -92,7 +95,7 @@ SLL_CALL sll_t* sll_at(sll_t* _root, size_t _index);
  * @param _new_data Pointer to the data to be inserted into the new node.
  * @return Pointer to the updated root of the list.
  */
-SLL_CALL sll_t* sll_insert(sll_t* _root, void* _new_data);
+SLL_CALL sll_t* sll_insert(sll_t* _root, void* _new_data) SLL_NONNULL(1, 2);
 
 /**
  * @brief Insert a new node at a specified index in the list.
@@ -104,7 +107,7 @@ SLL_CALL sll_t* sll_insert(sll_t* _root, void* _new_data);
  * @param _index The index at which to insert the new node.
  * @return Pointer to the updated root of the list.
  */
-SLL_CALL sll_t* sll_insert_at(sll_t** _root, void* _new_data, size_t _index);
+SLL_CALL sll_t* sll_insert_at(sll_t** _root, void* _new_data, size_t _index) SLL_NONNULL(1, 2);
 
 /**
  * @brief Insert a new node at the front of the list.
@@ -115,7 +118,7 @@ SLL_CALL sll_t* sll_insert_at(sll_t** _root, void* _new_data, size_t _index);
  * @param _new_data Pointer to the data to be inserted into the new node.
  * @return Status code indicating success or error.
  */
-SLL_CALL sll_status_t sll_insert_front(sll_t** _root, void* _new_data);
+SLL_CALL sll_status_t sll_insert_front(sll_t** _root, void* _new_data) SLL_NONNULL(1, 2);
 
 /**
  * @brief Add a new node at the end of the list.
@@ -126,7 +129,7 @@ SLL_CALL sll_status_t sll_insert_front(sll_t** _root, void* _new_data);
  * @param _new_data Pointer to the data to be added.
  * @return Pointer to the updated root of the list.
  */
-SLL_CALL sll_t* sll_insert_back(sll_t* _root, void* _new_data);
+SLL_CALL sll_t* sll_insert_back(sll_t* _root, void* _new_data) SLL_NONNULL(1, 2);
 
 /**
  * @brief Add a new node at the end of the list.
@@ -141,7 +144,7 @@ SLL_CALL sll_t* sll_insert_back(sll_t* _root, void* _new_data);
  * @note This function is inline to optimize performance, as it directly calls another
  *       function responsible for the actual insertion.
  */
-SLL_CALL sll_t* sll_push_back(sll_t* _root, void* _new_data);
+SLL_CALL sll_t* sll_push_back(sll_t* _root, void* _new_data) SLL_NONNULL(1, 2);
 
 /**
  * @brief Add an existing node at the end of the list.
@@ -152,7 +155,7 @@ SLL_CALL sll_t* sll_push_back(sll_t* _root, void* _new_data);
  * @param _node Pointer to the node to be added.
  * @return Status code indicating success or error.
  */
-SLL_CALL SLL_DEPRECATED(sll_push_back_obj, sll_push_back) sll_status_t sll_push_back_obj(sll_t* _root, sll_t* _node);
+SLL_CALL SLL_DEPRECATED(sll_push_back_obj, sll_push_back) sll_status_t sll_push_back_obj(sll_t* _root, sll_t* _node) SLL_NONNULL(1, 2);
 
 /**
  * @brief Debug output of the list.
@@ -163,7 +166,7 @@ SLL_CALL SLL_DEPRECATED(sll_push_back_obj, sll_push_back) sll_status_t sll_push_
  * @param _print_func Function for debugging data.
  * @return Status code indicating success or error.
  */
-SLL_CALL sll_status_t sll_debug(sll_t* _root, void(*_print_func)(void*));
+SLL_CALL sll_status_t sll_debug(sll_t* _root, void(*_print_func)(void*)) SLL_NONNULL(1, 2);
 
 /**
  * @brief Remove a node from the list.
@@ -175,7 +178,7 @@ SLL_CALL sll_status_t sll_debug(sll_t* _root, void(*_print_func)(void*));
  * @param _data_len Length of the data to be removed.
  * @return Status code indicating success or error.
  */
-SLL_CALL sll_status_t sll_remove(sll_t* _root, void* _data, size_t _data_len);
+SLL_CALL sll_status_t sll_remove(sll_t* _root, void* _data, size_t _data_len) SLL_NONNULL(1, 2);
 
 /**
  * @brief Remove a node from the list at given index.
@@ -186,7 +189,7 @@ SLL_CALL sll_status_t sll_remove(sll_t* _root, void* _data, size_t _data_len);
  * @param _index Index of the node to be removed
  * @return Status code indicating success or error.
  */
-SLL_CALL sll_status_t sll_remove_at(sll_t** _root, size_t _index);
+SLL_CALL sll_status_t sll_remove_at(sll_t** _root, size_t _index) SLL_NONNULL(1);
 
 /**
  * @brief Remove the node at the front of the list.
@@ -196,7 +199,7 @@ SLL_CALL sll_status_t sll_remove_at(sll_t** _root, size_t _index);
  * @param _root Pointer to a pointer to the root of the list.
  * @return Status code indicating success or error.
  */
-SLL_CALL sll_status_t sll_remove_front(sll_t** _root);
+SLL_CALL sll_status_t sll_remove_front(sll_t** _root) SLL_NONNULL(1);
 
 /**
  * @brief Remove the node at the end of the list.
@@ -206,7 +209,7 @@ SLL_CALL sll_status_t sll_remove_front(sll_t** _root);
  * @param _root Pointer to the root of the list.
  * @return Status code indicating success or error.
  */
-SLL_CALL sll_status_t sll_remove_back(sll_t* _root);
+SLL_CALL sll_status_t sll_remove_back(sll_t* _root) SLL_NONNULL(1);
 
 /**
  * @brief Get the size of the list.
@@ -216,7 +219,7 @@ SLL_CALL sll_status_t sll_remove_back(sll_t* _root);
  * @param _root Pointer to the root of the list.
  * @return Number of nodes in the list.
  */
-SLL_CALL size_t sll_get_size(sll_t* _root);
+SLL_CALL size_t sll_get_size(sll_t* _root) SLL_NONNULL(1);
 
 /**
  * @brief Set new data for a given node.
@@ -231,7 +234,7 @@ SLL_CALL size_t sll_get_size(sll_t* _root);
  *         - SLL_FINE: Data was set successfully.
  *         - SLL_PASSED_NULL: The provided node pointer or new data pointer is NULL.
  */
-SLL_CALL sll_status_t sll_set(sll_t* _node, void* _new_data);
+SLL_CALL sll_status_t sll_set(sll_t* _node, void* _new_data) SLL_NONNULL(1, 2);
 
 /**
  * @brief Clear the list and free its nodes.
@@ -248,7 +251,7 @@ SLL_CALL sll_status_t sll_set(sll_t* _node, void* _new_data);
  *         - SLL_FINE: List was cleared successfully.
  *         - SLL_PASSED_NULL: The provided root pointer is NULL.
  */
-SLL_CALL sll_status_t sll_clear(sll_t* _root);
+SLL_CALL sll_status_t sll_clear(sll_t* _root) SLL_NONNULL(1);
 
 /**
  * @brief Free the memory allocated for the list.
@@ -261,7 +264,7 @@ SLL_CALL sll_status_t sll_clear(sll_t* _root);
  *         - SLL_FINE: Memory was freed successfully.
  *         - SLL_PASSED_NULL: The provided root pointer is NULL.
  */
-SLL_CALL sll_status_t sll_free(sll_t* _root);
+SLL_CALL sll_status_t sll_free(sll_t* _root) SLL_NONNULL(1);
 
 
 #ifdef __cplusplus
